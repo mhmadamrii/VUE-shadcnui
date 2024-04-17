@@ -11,15 +11,7 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag) => ['md-linedivider'].includes(tag),
-        },
-      },
-    }),
-  ],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
