@@ -8,7 +8,9 @@
 </script>
 
 <template>
-  <thead :class="cn('[&_tr]:border-b', props.class)">
+  <div
+    :class="cn('flex flex-col gap-y-1.5 text-center sm:text-left', props.class)"
+  >
     <slot />
-  </thead>
+  </div>
 </template>
