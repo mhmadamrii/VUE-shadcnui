@@ -1,56 +1,34 @@
 <script setup lang="ts">
-  import { h } from 'vue'
-  import { useForm } from 'vee-validate'
-  import { toTypedSchema } from '@vee-validate/zod'
-  import * as z from 'zod'
+  const posts = ref([])
+  const selectedUsers = ref([])
 
-  import { Button } from '@/components/ui/button'
-  import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from '@/components/ui/form'
-  import { Input } from '@/components/ui/input'
-  // import { toast } from '@/components/ui/toast'
+  const toggleSelection = (user) => {
+    if (selectedUsers.value.includes(user)) {
+      selectedUsers.value = selectedUsers.value.filter((u) => u !== user)
+    } else {
+      selectedUsers.value.push(user)
+    }
+  }
 
-  const formSchema = toTypedSchema(
-    z.object({
-      username: z.string().min(2).max(50),
-    }),
-  )
+  const deleteSelectedUsers = () => {
+    posts.value = posts.value.filter(
+      (user) => !selectedUsers.value.includes(user),
+    )
+    selectedUsers.value = []
+    toast.success('User has been deleted')
+  }
 
-  const { handleSubmit } = useForm({
-    validationSchema: formSchema,
-  })
+  const searchUser = () => {}
 
-  const onSubmit = handleSubmit((values) => {
-    console.log('values', values)
-    // toast({
-    //   title: 'You submitted the following values:',
-    //   description: h(
-    //     'pre',
-    //     { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' },
-    //     h('code', { class: 'text-white' }, JSON.stringify(values, null, 2)),
-    //   ),
-    // })
+  onMounted(async () => {
+    try {
+      const response = await axios.get('https://dummyjson.com/users')
+      console.log('response', response)
+      posts.value = response.data.users
+    } catch (error) {
+      console.error('Error fetching posts:', error)
+    }
   })
 </script>
 
-<template>
-  <form class="w-2/3 space-y-6" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="username">
-      <FormItem>
-        <FormLabel>Username</FormLabel>
-        <FormControl>
-          <Input type="text" placeholder="shadcn" v-bind="componentField" />
-        </FormControl>
-        <FormDescription> This is your public display name. </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
-    <Button type="submit"> Submit </Button>
-  </form>
-</template>
+<template></template>
