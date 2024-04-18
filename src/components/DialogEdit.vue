@@ -3,6 +3,7 @@
   import axios from 'axios'
 
   import { h, computed, ref } from 'vue'
+  import { BASE_URL } from '@/lib/constants'
   import { useForm } from 'vee-validate'
   import { toTypedSchema } from '@vee-validate/zod'
   import { Input } from '@/components/ui/input'
@@ -57,13 +58,10 @@
   const onSubmit = handleSubmit(async (values, { resetForm }) => {
     isSubmitting.value = true
     try {
-      const res = await axios.put(
-        `https://dummyjson.com/users/${normalFormatUser.id}`,
-        {
-          firstName: values?.firstName,
-          lastName: values?.lastName,
-        },
-      )
+      const res = await axios.put(`${BASE_URL}/${normalFormatUser.id}`, {
+        firstName: values?.firstName,
+        lastName: values?.lastName,
+      })
       if (res.status == 200 || res.status == 201) {
         toast.success('User has been updated')
         resetForm()

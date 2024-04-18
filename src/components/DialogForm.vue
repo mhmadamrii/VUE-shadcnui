@@ -3,6 +3,7 @@
   import axios from 'axios'
 
   import { h, computed, ref } from 'vue'
+  import { BASE_URL } from '@/lib/constants'
   import { useForm } from 'vee-validate'
   import { toTypedSchema } from '@vee-validate/zod'
   import { Input } from '@/components/ui/input'
@@ -50,7 +51,7 @@
   const onSubmit = handleSubmit(async (values, { resetForm }) => {
     isSubmitting.value = true
     try {
-      const res = await axios.post('https://dummyjson.com/users/add', {
+      const res = await axios.post(`${BASE_URL}/add`, {
         firstName: values?.firstName,
         lastName: values?.lastName,
       })
