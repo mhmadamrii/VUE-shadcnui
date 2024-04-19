@@ -66,7 +66,7 @@
 
       // console.log('response delete', response)
     } catch (error) {
-      console.log('[ERROR_DELETE_USRE]', error)
+      console.log('[ERROR_DELETE_USERS]', error)
     }
 
     posts.value = posts.value.filter(
